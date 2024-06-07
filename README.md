@@ -5,7 +5,7 @@
 2. Add the `WEB-INF` directory to the `Web Pages` directory if it does not exist.
 3. Start the Tomcat server.
 4. Run the application.
-5. Open https://localhost:8080/Registration.
+5. Open https://localhost:8080/Registro.
 
 ## Preview
 ![image](https://github.com/Flavio-Ore/Bare-JSP-CRUD-without-frameworks/assets/101116042/eb1fdaab-fb58-4fc8-b6cc-2db019f010f2)
