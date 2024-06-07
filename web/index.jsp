@@ -15,31 +15,10 @@
     final static String DAO = "DAO";
 %>
 
-<%
-    try {
-        if (session.getAttribute(DAO) == null) {
-            UsuarioDAO dao = new UsuarioDAO();
-            session.setAttribute(DAO, dao);
-            out.println("DAO ES NULL");
-        } else {
-            out.println("DAO EXISTE");
-        }
-        out.println(request.getMethod());
-        Enumeration<String> parameterNames = request.getParameterNames();
-        while (parameterNames.hasMoreElements()) {
-            String paramName = parameterNames.nextElement();
-            String[] paramValues = request.getParameterValues(paramName);
-            for (String paramValue : paramValues) {
-                out.println("Parameter Name: " + paramName + ", Value: " + paramValue + "\n");
-
-            }
-        }
-    } catch (Exception e) {
-        out.println("Error: " + e.getMessage());
+<% if (session.getAttribute(DAO) == null) {
+        UsuarioDAO dao = new UsuarioDAO();
+        session.setAttribute(DAO, dao);
     }
-%>
-
-<%
     try {
         UsuarioDAO dao = (UsuarioDAO) session.getAttribute(DAO);
         String usuCod = request.getParameter(Usuario.USU_COD);
@@ -99,7 +78,7 @@
             }
         }
     } catch (Exception e) {
-        out.println("<script>window.alert('Error en los datos')</script>");
+        out.println("<script>window.alert('Error en los datos.')</script>");
         e.printStackTrace();
     }
 
@@ -129,9 +108,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Probando JSP</title>
+        <%@include file="./styles.jspf" %>
     </head>
     <body>
-        <h2>Buscar Usuarios por nombre</h2>
+        <header><%@include file="./navigation.jspf" %></header>
+        <h2>Búsqueda de usuarios</h2>
         <form action="./index.jsp">
             <label for="busqueda_cod">Búsqueda por código</label>
             <input type="search" name="busqueda_cod" placeholder="USRXXXXX" />
@@ -140,9 +121,8 @@
             <input type="submit" value="Buscar">
         </form>
 
-        <h1>Usuario editado: <%            request.getAttribute("USUARIO_EDITAR");
-            %></h1>
-        <h2>Usuarios registrados</h2>
+
+        <h1>Usuarios registrados</h1>
         <div class="table-wrapper">
             <table class="lista-usuarios">
                 <tr>
@@ -333,7 +313,7 @@
             </table>
         </div>
 
-        <h2>Formulario de prueba conectado a PhpMyAdmin y usando JSP</h2>
+        <h2>Agregar nuevo usuario</h2>
         <form action="./index.jsp" method="post">
             <label for="<%=Usuario.USU_COD%>">Código de usuario</label>
             <input required type="text" name=<%=Usuario.USU_COD%> placeholder="Código de usuario*"/>
@@ -414,114 +394,3 @@
     })
 </script>
 
-<style>
-    *, ::before, ::after{
-        box-sizing: border-box;
-    }
-    body {
-        font-family: Arial, sans-serif;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap:1rem;
-        margin-top: 0;
-        margin-bottom: 0;
-        margin-right: auto;
-        margin-left: auto;
-        max-width: 1024px;
-
-    }
-    table {
-        border-collapse: collapse;
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-    dialog {
-        position: fixed;
-        inset: 25%;
-    }
-    .table-form-edicion {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
-    .table-wrapper {
-        max-width: 1024px;
-        overflow-x: auto;
-    }
-    .lista-usuarios {
-        width: 100%;
-        text-align: center;
-        place-content: center;
-    }
-    .lista-usuarios th {
-        background-color: #4caf50;
-    }
-    th, td{
-        text-align: center;
-        padding: 4px 8px;
-    }
-
-    .lista-usuarios th,
-    .lista-usuarios td {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
-
-
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: .25rem;
-        width: 100%;
-    }
-    input, select {
-        padding: 10px;
-        margin: 5px 0;
-        width: 100%;
-    }
-
-    input[type='text']:hover,
-    input[type='number']:hover {
-        background-color: rgb(232, 240, 254);
-        color: var(--dark-color);
-    }
-
-    button, input[type='submit'], select {
-        border: none;
-        cursor: pointer;
-    }
-
-    button:hover{
-        opacity: 0.5;
-    }
-
-    input[type='submit'] {
-        background-color: #4caf50;
-        color: #fcfcfc;
-        cursor: crosshair;
-    }
-    .form-no-encontrado {
-        color: #ef4444;
-    }
-    .btn-eliminar {
-        background-color: #ef4444;
-    }
-    .btn-editar {
-        background-color: #4caf50;
-
-    }
-
-
-    input[type='submit']:hover {
-        background-color: #f59e0b;
-        color: #0c0c0c;
-    }
-
-    .invisible {
-        display: none;
-    }
-
-</style>

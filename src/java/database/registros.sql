@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT EXISTS registros;
 USE registros;
 CREATE TABLE IF NOT EXISTS usuario_seq (seq_value BIGINT(20) UNSIGNED NOT NULL);
 INSERT INTO usuario_seq (seq_value)

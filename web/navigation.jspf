@@ -1,0 +1,7 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<nav>
+    <form action="./index.jsp" method="post">
+        <input type="submit" value="Menú principal" />
+    </form>
+</nav>

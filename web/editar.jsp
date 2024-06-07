@@ -14,23 +14,12 @@
 <%!
     final static String DAO = "DAO";
 %>
-<%
-    try {
-        Enumeration<String> parameterNames = request.getParameterNames();
 
-        while (parameterNames.hasMoreElements()) {
-            String paramName = parameterNames.nextElement();
-            String[] paramValues = request.getParameterValues(paramName);
-            for (String paramValue : paramValues) {
-                out.println("<li>Parameter Name: " + paramName + ", Value: " + paramValue + "</li>");
-            }
-        }
-    } catch (Exception e) {
-        out.println("Error: " + e.getMessage());
+<%
+    if (session.getAttribute(DAO) == null) {
+        UsuarioDAO dao = new UsuarioDAO();
+        session.setAttribute(DAO, dao);
     }
-%>
-
-<%
     try {
         String email = (String) session.getAttribute("USUARIO_EMAIL");
 
@@ -103,9 +92,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Probando JSP</title>
+        <%@include file="./styles.jspf" %>
     </head>
     <body>
-        <h2>Editar Usuario </h2>
+        <header><%@include file="./navigation.jspf" %></header>
+        <h1>Edición de usuario</h1>
         <form action="./editar.jsp" method="POST">
             <%                UsuarioDAO dao = (UsuarioDAO) session.getAttribute(DAO);
                 String email = request.getParameter("emailUsuario");
@@ -232,115 +223,3 @@
 
     })
 </script>
-
-<style>
-    *, ::before, ::after{
-        box-sizing: border-box;
-    }
-    body {
-        font-family: Arial, sans-serif;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap:1rem;
-        margin-top: 0;
-        margin-bottom: 0;
-        margin-right: auto;
-        margin-left: auto;
-        max-width: 1024px;
-
-    }
-    table {
-        border-collapse: collapse;
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-    dialog {
-        position: fixed;
-        inset: 25%;
-    }
-    .table-form-edicion {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
-    .table-wrapper {
-        max-width: 1024px;
-        overflow-x: auto;
-    }
-    .lista-usuarios {
-        width: 100%;
-        text-align: center;
-        place-content: center;
-    }
-    .lista-usuarios th {
-        background-color: #4caf50;
-    }
-    th, td{
-        text-align: center;
-        padding: 4px 8px;
-    }
-
-    .lista-usuarios th,
-    .lista-usuarios td {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
-
-
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: .25rem;
-        width: 100%;
-    }
-    input, select {
-        padding: 10px;
-        margin: 5px 0;
-        width: 100%;
-    }
-
-    input[type='text']:hover,
-    input[type='number']:hover {
-        background-color: rgb(232, 240, 254);
-        color: var(--dark-color);
-    }
-
-    button, input[type='submit'], select {
-        border: none;
-        cursor: pointer;
-    }
-
-    button:hover{
-        opacity: 0.5;
-    }
-
-    input[type='submit'] {
-        background-color: #4caf50;
-        color: #fcfcfc;
-        cursor: crosshair;
-    }
-    .form-no-encontrado {
-        color: #ef4444;
-    }
-    .btn-eliminar {
-        background-color: #ef4444;
-    }
-    .btn-editar {
-        background-color: #4caf50;
-
-    }
-
-
-    input[type='submit']:hover {
-        background-color: #f59e0b;
-        color: #0c0c0c;
-    }
-
-    .invisible {
-        display: none;
-    }
-
-</style>
